@@ -5,6 +5,8 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import Image from "next/image";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const TopRatedDoctors = async () => {
   const res = await fetch("http://localhost:5000/api/v1/doctor?page=1&limit=3");
@@ -34,35 +36,46 @@ const TopRatedDoctors = async () => {
         </Typography>
       </Box>
 
-      <Container>
+      <Container sx={{margin: "30px auto"}}>
         <Grid2 container spacing={2}>
           {doctors?.map((doctor: any) => (
             <Grid2 key={doctor?.id} size={{ md: 4 }}>
-              <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  component="img"
-                  alt="green iguana"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                />
+              <Card>
+
+                <Box>
+                    <Image src={doctor?.profilePhoto}  alt={doctor?.name} height={500} width={500} className="h-72 object-cover"/>
+                </Box>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    {doctor?.name}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    {doctor?.qualification}, {doctor?.designation}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                    <LocationOnIcon/>{doctor?.address}
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
+                <CardActions sx={{
+                    justifyContent: "space-between",
+                    px: 2,
+                    paddingBottom: "20px"
+                }}>
+                  <Button >Book Now</Button>
+                  <Button variant="outlined">View Profile</Button>
                 </CardActions>
               </Card>
             </Grid2>
           ))}
         </Grid2>
+        <Box
+          sx={{
+            marginTop: "30px",
+            textAlign: "center"
+          }}
+        >
+          <Button variant="outlined">View All</Button>
+        </Box>
       </Container>
     </Box>
   );
