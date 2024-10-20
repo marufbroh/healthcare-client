@@ -70,7 +70,7 @@ const Specialties = async () => {
         </Stack>
         <Box
           sx={{
-            marginTop: "20px",
+            marginTop: "30px",
           }}
         >
           <Button variant="outlined">View All</Button>
