@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 export default function Home() {
   return (
     <div>
-      <Button variant="text">Text</Button>
+      <Button>Text</Button>
     </div>
   )
 }
