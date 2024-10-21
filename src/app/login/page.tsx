@@ -16,6 +16,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/actions/loginUser";
+import { storeUserInfo } from "@/services/auth.services";
 
 export interface ILoginFormData {
   email: string;
@@ -34,7 +35,8 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<ILoginFormData> = async (values) => {
     try {
       const res = await loginUser(values);
-      if (res?.success) {
+      if (res?.data?.accessToken) {
+        storeUserInfo(res.data.accessToken)
         toast.success(res.message);
         router.push("/");
       } else {
