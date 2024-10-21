@@ -13,7 +13,7 @@ import assets from "@/assets";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { modifyPayload } from "@/utils/modifyPayload";
-import { registerPatient } from "@/services/registerPatient";
+import { registerPatient } from "@/services/actions/registerPatient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
