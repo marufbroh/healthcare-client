@@ -115,7 +115,7 @@ const LoginPage = () => {
                   margin: "16px 0px",
                 }}
               >
-                Register
+                Login
               </Button>
 
               <Typography component="p" fontWeight={300} textAlign={"center"}>
