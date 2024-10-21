@@ -1,5 +1,5 @@
 "use client";
-import { getUserInfo, isLoggedIn, removeUser } from "@/services/auth.services";
+import { getUserInfo, removeUser } from "@/services/auth.services";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

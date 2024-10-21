@@ -16,6 +16,8 @@ import { modifyPayload } from "@/utils/modifyPayload";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { loginUser } from "@/services/actions/loginUser";
+import { storeUserInfo } from "@/services/auth.services";
 
 interface IPatientData {
   name: string;
@@ -46,7 +48,14 @@ const RegisterPage = () => {
 
       if (res?.success) {
         toast.success(res.message);
-        router.push("/login");
+        const result = await loginUser({
+          password: values.password,
+          email: values.patient.email,
+        });
+        if (result?.data?.accessToken) {
+          storeUserInfo(result.data.accessToken);
+          router.push("/");
+        }
       }
     } catch (error) {
       console.log(error);

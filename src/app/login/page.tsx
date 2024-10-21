@@ -106,7 +106,6 @@ const LoginPage = () => {
               </Grid2>
               <Typography component="p" fontWeight={300} textAlign={"end"}>
                 Forgot Password?
-                {/* <Link href={"/register"}>Create an account</Link> */}
               </Typography>
               <Button
                 type="submit"
