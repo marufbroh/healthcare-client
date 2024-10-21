@@ -12,24 +12,30 @@ import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { modifyPayload } from "@/utils/modifyPayload";
 
 interface IPatientData {
-  name: string,
-  email: string,
-  contactNumber: string,
-  address: string
+  name: string;
+  email: string;
+  contactNumber: string;
+  address: string;
 }
 
 interface IPatientRegisterFormData {
-  password: string,
-  patient: IPatientData
+  password: string;
+  patient: IPatientData;
 }
 
 const RegisterPage = () => {
-
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<IPatientRegisterFormData>();
-  const onSubmit: SubmitHandler<IPatientRegisterFormData> = data => console.log(data);
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IPatientRegisterFormData>();
+  const onSubmit: SubmitHandler<IPatientRegisterFormData> = (values) => {
+    const data = modifyPayload(values)
+  };
 
   return (
     <Container>
@@ -129,7 +135,9 @@ const RegisterPage = () => {
 
               <Typography component="p" fontWeight={300} textAlign={"center"}>
                 Do you already have an account?{" "}
-                <Link href={"/login"} className="text-blue-500">Login</Link>
+                <Link href={"/login"} className="text-blue-500">
+                  Login
+                </Link>
               </Typography>
             </form>
           </Box>
