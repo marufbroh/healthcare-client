@@ -1,7 +1,7 @@
-import { Box, Container, Grid2, Grid22, Typography } from "@mui/material";
-import chooseUsImg from "@/assets/choose-us.png";
-import Image from "next/image";
 import assets from "@/assets";
+import chooseUsImg from "@/assets/choose-us.png";
+import { Box, Container, Grid2, Typography } from "@mui/material";
+import Image from "next/image";
 
 const servicesData = [
   {
