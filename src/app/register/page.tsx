@@ -13,18 +13,12 @@ import Link from "next/link";
 
 const RegisterPage = () => {
   return (
-    <Container
-      sx={{
-        // display: "flex",
-        alignContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
+    <Container>
       <Stack
         sx={{
           justifyContent: "center",
           alignItems: "center",
+          minHeight: "100vh",
         }}
       >
         <Box
@@ -110,7 +104,7 @@ const RegisterPage = () => {
 
               <Typography component="p" fontWeight={300} textAlign={"center"}>
                 Do you already have an account?{" "}
-                <Link href={"/login"}>Login</Link>
+                <Link href={"/login"} className="text-blue-500">Login</Link>
               </Typography>
             </form>
           </Box>
