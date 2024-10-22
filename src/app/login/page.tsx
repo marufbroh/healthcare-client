@@ -5,6 +5,7 @@ import HForm from "@/components/Forms/HForm";
 import HInput from "@/components/Forms/HInput";
 import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/auth.services";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -19,6 +20,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
+
+export const validationSchema = z.object({
+  email: z.string().email("Please enter a valid email address!"),
+  password: z.string().min(6, "Must be at least 6 characters!"),
+});
 
 const LoginPage = () => {
   const router = useRouter();
@@ -72,7 +79,7 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <HForm onSubmit={handleLogin}>
+            <HForm onSubmit={handleLogin} resolver={zodResolver(validationSchema)}>
               <Grid2 container spacing={3} my={2}>
                 <Grid2 size={{ md: 6 }}>
                   <HInput
