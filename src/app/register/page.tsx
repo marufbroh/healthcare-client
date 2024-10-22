@@ -11,36 +11,20 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { modifyPayload } from "@/utils/modifyPayload";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/auth.services";
-
-interface IPatientData {
-  name: string;
-  email: string;
-  contactNumber: string;
-  address: string;
-}
-
-interface IPatientRegisterFormData {
-  password: string;
-  patient: IPatientData;
-}
+import HForm from "@/components/Forms/HForm";
+import HInput from "@/components/Forms/HInput";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<IPatientRegisterFormData>();
 
-  const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
+  const handleRegister = async (values: FieldValues) => {
     const data = modifyPayload(values);
 
     try {
@@ -96,55 +80,44 @@ const RegisterPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <HForm onSubmit={handleRegister}>
               <Grid2 container spacing={3} my={2}>
                 <Grid2 size={{ md: 12 }}>
-                  <TextField
-                    label="Name"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("patient.name")}
-                  />
+                  <HInput label="Name" fullWidth={true} name="patient.name" required={true} />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
-                  <TextField
+                  <HInput
                     label="Email"
                     type="email"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("patient.email")}
+                    fullWidth={true}
+                    name="patient.email"
+                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
-                  <TextField
+                  <HInput
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("password")}
+                    fullWidth={true}
+                    name="password"
+                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
-                  <TextField
+                  <HInput
                     label="Contact Number"
                     type="tel"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("patient.contactNumber")}
+                    fullWidth={true}
+                    name="patient.contactNumber"
+                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
-                  <TextField
+                  <HInput
                     label="Address"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("patient.address")}
+                    fullWidth={true}
+                    name="patient.address"
+                    required={true}
                   />
                 </Grid2>
               </Grid2>
@@ -164,7 +137,7 @@ const RegisterPage = () => {
                   Login
                 </Link>
               </Typography>
-            </form>
+            </HForm>
           </Box>
         </Box>
       </Stack>

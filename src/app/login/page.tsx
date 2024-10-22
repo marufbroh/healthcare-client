@@ -80,6 +80,7 @@ const LoginPage = () => {
                     label="Email"
                     type="email"
                     fullWidth={true}
+                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
@@ -88,6 +89,7 @@ const LoginPage = () => {
                     label="Password"
                     type="password"
                     fullWidth={true}
+                    required={true}
                   />
                 </Grid2>
               </Grid2>
