@@ -120,7 +120,7 @@ const LoginPage = () => {
 
               <Typography component="p" fontWeight={300} textAlign={"center"}>
                 Don&apos;t have an account?{" "}
-                <Link href={"/register"} className="text-blue-500">
+                <Link href={"/register"} style={{color: "blue"}}>
                   Create an account
                 </Link>
               </Typography>

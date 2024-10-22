@@ -162,7 +162,7 @@ const RegisterPage = () => {
 
               <Typography component="p" fontWeight={300} textAlign={"center"}>
                 Do you already have an account?{" "}
-                <Link href={"/login"} className="text-blue-500">
+                <Link href={"/login"} style={{color: "blue"}}>
                   Login
                 </Link>
               </Typography>

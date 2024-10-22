@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Image from "next/image";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const TopRatedDoctors = async () => {
   const res = await fetch("http://localhost:5000/api/v1/doctor?page=1&limit=3");
@@ -36,14 +36,19 @@ const TopRatedDoctors = async () => {
         </Typography>
       </Box>
 
-      <Container sx={{margin: "30px auto"}}>
+      <Container sx={{ margin: "30px auto" }}>
         <Grid2 container spacing={2}>
           {doctors?.map((doctor: any) => (
             <Grid2 key={doctor?.id} size={{ md: 4 }}>
               <Card>
-
                 <Box>
-                    <Image src={doctor?.profilePhoto}  alt={doctor?.name} height={500} width={500} className="h-72 object-cover"/>
+                  <Image
+                    src={doctor?.profilePhoto}
+                    alt={doctor?.name}
+                    height={500}
+                    width={500}
+                    style={{ height: "288px", objectFit: "cover" }}
+                  />
                 </Box>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
@@ -52,16 +57,22 @@ const TopRatedDoctors = async () => {
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {doctor?.qualification}, {doctor?.designation}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                    <LocationOnIcon/>{doctor?.address}
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "text.secondary", mt: 2 }}
+                  >
+                    <LocationOnIcon />
+                    {doctor?.address}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{
+                <CardActions
+                  sx={{
                     justifyContent: "space-between",
                     px: 2,
-                    paddingBottom: "20px"
-                }}>
-                  <Button >Book Now</Button>
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <Button>Book Now</Button>
                   <Button variant="outlined">View Profile</Button>
                 </CardActions>
               </Card>
@@ -71,7 +82,7 @@ const TopRatedDoctors = async () => {
         <Box
           sx={{
             marginTop: "30px",
-            textAlign: "center"
+            textAlign: "center",
           }}
         >
           <Button variant="outlined">View All</Button>
