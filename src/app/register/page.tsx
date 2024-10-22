@@ -20,6 +20,32 @@ import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/auth.services";
 import HForm from "@/components/Forms/HForm";
 import HInput from "@/components/Forms/HInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export const patientValidationSchema = z.object({
+  name: z.string().min(1, "Please enter your name!"),
+  email: z.string().email("Please enter a valid email address!"),
+  contactNumber: z
+    .string()
+    .regex(/^\d{11}$/, "Please provide a valid phone number!"),
+  address: z.string().min(1, "Please enter your address!"),
+});
+
+export const validationSchema = z.object({
+  password: z.string().min(6, "Must be at least 6 characters"),
+  patient: patientValidationSchema,
+});
+
+export const defaultValues = {
+  password: "",
+  patient: {
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  },
+};
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -80,10 +106,14 @@ const RegisterPage = () => {
             </Box>
           </Stack>
           <Box>
-            <HForm onSubmit={handleRegister}>
+            <HForm
+              onSubmit={handleRegister}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={defaultValues}
+            >
               <Grid2 container spacing={3} my={2}>
                 <Grid2 size={{ md: 12 }}>
-                  <HInput label="Name" fullWidth={true} name="patient.name" required={true} />
+                  <HInput label="Name" fullWidth={true} name="patient.name" />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
                   <HInput
@@ -91,7 +121,6 @@ const RegisterPage = () => {
                     type="email"
                     fullWidth={true}
                     name="patient.email"
-                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
@@ -100,7 +129,6 @@ const RegisterPage = () => {
                     type="password"
                     fullWidth={true}
                     name="password"
-                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
@@ -109,7 +137,6 @@ const RegisterPage = () => {
                     type="tel"
                     fullWidth={true}
                     name="patient.contactNumber"
-                    required={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
@@ -117,7 +144,6 @@ const RegisterPage = () => {
                     label="Address"
                     fullWidth={true}
                     name="patient.address"
-                    required={true}
                   />
                 </Grid2>
               </Grid2>
