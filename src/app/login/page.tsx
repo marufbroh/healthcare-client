@@ -79,7 +79,14 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <HForm onSubmit={handleLogin} resolver={zodResolver(validationSchema)}>
+            <HForm
+              onSubmit={handleLogin}
+              resolver={zodResolver(validationSchema)}
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
+            >
               <Grid2 container spacing={3} my={2}>
                 <Grid2 size={{ md: 6 }}>
                   <HInput
