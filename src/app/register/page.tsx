@@ -66,6 +66,9 @@ const RegisterPage = () => {
           storeUserInfo(result.data.accessToken);
           router.push("/");
         }
+      }else{
+        console.log(res);
+        toast.error(res.message || "User already exits!");
       }
     } catch (error) {
       console.log(error);
