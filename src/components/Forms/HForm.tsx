@@ -16,6 +16,7 @@ export default function HForm({ children, onSubmit }: TFormProps) {
   const methods = useForm();
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
+    methods.reset();
   };
 
   return (

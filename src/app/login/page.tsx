@@ -2,6 +2,7 @@
 
 import assets from "@/assets";
 import HForm from "@/components/Forms/HForm";
+import HInput from "@/components/Forms/HInput";
 import { loginUser } from "@/services/actions/loginUser";
 import { storeUserInfo } from "@/services/auth.services";
 import {
@@ -26,7 +27,7 @@ const LoginPage = () => {
     try {
       const res = await loginUser(values);
       if (res?.data?.accessToken) {
-        storeUserInfo(res.data.accessToken)
+        storeUserInfo(res.data.accessToken);
         toast.success(res.message);
         router.push("/");
       } else {
@@ -74,23 +75,19 @@ const LoginPage = () => {
             <HForm onSubmit={handleLogin}>
               <Grid2 container spacing={3} my={2}>
                 <Grid2 size={{ md: 6 }}>
-                  <TextField
+                  <HInput
+                    name="email"
                     label="Email"
                     type="email"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("email")}
+                    fullWidth={true}
                   />
                 </Grid2>
                 <Grid2 size={{ md: 6 }}>
-                  <TextField
+                  <HInput
+                    name="password"
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    {...register("password")}
+                    fullWidth={true}
                   />
                 </Grid2>
               </Grid2>
