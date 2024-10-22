@@ -1,5 +1,9 @@
 "use client";
 
+import assets from "@/assets";
+import HForm from "@/components/Forms/HForm";
+import { loginUser } from "@/services/actions/loginUser";
+import { storeUserInfo } from "@/services/auth.services";
 import {
   Box,
   Button,
@@ -10,29 +14,15 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import assets from "@/assets";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { loginUser } from "@/services/actions/loginUser";
-import { storeUserInfo } from "@/services/auth.services";
-
-export interface ILoginFormData {
-  email: string;
-  password: string;
-}
+import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<ILoginFormData>();
 
-  const onSubmit: SubmitHandler<ILoginFormData> = async (values) => {
+  const handleLogin = async (values: FieldValues) => {
     try {
       const res = await loginUser(values);
       if (res?.data?.accessToken) {
@@ -81,7 +71,7 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <HForm onSubmit={handleLogin}>
               <Grid2 container spacing={3} my={2}>
                 <Grid2 size={{ md: 6 }}>
                   <TextField
@@ -123,7 +113,7 @@ const LoginPage = () => {
                   Create an account
                 </Link>
               </Typography>
-            </form>
+            </HForm>
           </Box>
         </Box>
       </Stack>
