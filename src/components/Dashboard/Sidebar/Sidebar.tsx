@@ -1,43 +1,16 @@
 "use client";
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/material";
-import Image from "next/image";
 import assets from "@/assets";
+import { TUserRole } from "@/types";
+import { drawerItems } from "@/utils/drawerItems";
+import { Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Image from "next/image";
 import Link from "next/link";
+import SidebarItem from "./SidebarItem";
 
 const Sidebar = () => {
-  const drawer = (
-    <div>
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
 
   return (
     <Box>
@@ -55,7 +28,16 @@ const Sidebar = () => {
           HealthCare
         </Typography>
       </Stack>
-      {drawer}
+      
+
+      <List>
+        {drawerItems("admin" as TUserRole).map((item, index) => (
+          <SidebarItem key={index} index={index} item={item}/>
+        ))}
+      </List>
+
+
+
     </Box>
   );
 };
