@@ -9,9 +9,17 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import SidebarItem from "./SidebarItem";
+import { getUserInfo } from "@/services/auth.services";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
+  const [userRole, setUserRole] = useState("");
 
+  useEffect(() => {
+    const userInfo = getUserInfo();
+    setUserRole(userInfo?.role)
+  }, []);
+  
   return (
     <Box>
       <Stack
@@ -24,20 +32,16 @@ const Sidebar = () => {
         href={"/"}
       >
         <Image src={assets.svgs.logo} width={40} height={40} alt="logo" />
-        <Typography variant="h6" component="h1" sx={{cursor: "pointer"}}>
+        <Typography variant="h6" component="h1" sx={{ cursor: "pointer" }}>
           HealthCare
         </Typography>
       </Stack>
-      
 
       <List>
-        {drawerItems("admin" as TUserRole).map((item, index) => (
-          <SidebarItem key={index} item={item}/>
+        {drawerItems(userRole as TUserRole).map((item, index) => (
+          <SidebarItem key={index} item={item} />
         ))}
       </List>
-
-
-
     </Box>
   );
 };

@@ -1,3 +1,5 @@
+// "use server"
+
 import { authKey } from "@/constant/authKey"
 import { decodedToken } from "@/utils/jwt";
 import { getFromLocalStorage, removeFromLocalStorage, setToLocalStorage } from "@/utils/local-storage"
