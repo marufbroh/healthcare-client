@@ -23,7 +23,7 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
             <HInput name="title" label="Title" />
           </Grid2>
           <Grid2 size={{ md: 6 }}>
-            <HFileUploader/>
+            <HFileUploader name="file" label="Upload File"/>
           </Grid2>
         </Grid2>
 
