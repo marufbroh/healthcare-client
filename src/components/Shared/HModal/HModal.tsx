@@ -15,7 +15,7 @@ type TModalProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   children: React.ReactNode;
-  sx?: SxProps
+  sx?: SxProps;
 };
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -27,8 +27,13 @@ export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function HModal({ open = false, setOpen, title = "", children, sx }: TModalProps) {
-
+export default function HModal({
+  open = false,
+  setOpen,
+  title = "",
+  children,
+  sx,
+}: TModalProps) {
   const handleClose = () => {
     setOpen(false);
   };
@@ -39,7 +44,7 @@ export default function HModal({ open = false, setOpen, title = "", children, sx
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        sx={{...sx}}
+        sx={{ ...sx }}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {title}

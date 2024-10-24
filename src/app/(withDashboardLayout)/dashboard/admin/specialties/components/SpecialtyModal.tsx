@@ -2,6 +2,7 @@ import HFileUploader from "@/components/Forms/HFileUploader";
 import HForm from "@/components/Forms/HForm";
 import HInput from "@/components/Forms/HInput";
 import HModal from "@/components/Shared/HModal/HModal";
+import { modifyPayload } from "@/utils/modifyPayload";
 import { Box, Button, Grid2, Stack, TextField } from "@mui/material";
 import { FieldValues } from "react-hook-form";
 
@@ -10,9 +11,15 @@ type TProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SpecialtiesModal = ({ open, setOpen }: TProps) => {
+const SpecialtyModal = ({ open, setOpen }: TProps) => {
   const handleFormSubmit = (values: FieldValues) => {
-    console.log(values);
+    const data = modifyPayload(values);
+
+    try {
+      
+    } catch (error: any) {
+      console.error(error.message)
+    }
   };
 
   return (
@@ -23,7 +30,7 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
             <HInput name="title" label="Title" />
           </Grid2>
           <Grid2 size={{ md: 6 }}>
-            <HFileUploader name="file" label="Upload File"/>
+            <HFileUploader name="file" label="Upload File" />
           </Grid2>
         </Grid2>
 
@@ -35,4 +42,4 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
   );
 };
 
-export default SpecialtiesModal;
+export default SpecialtyModal;
