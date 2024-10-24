@@ -1,5 +1,9 @@
+import HFileUploader from "@/components/Forms/HFileUploader";
+import HForm from "@/components/Forms/HForm";
+import HInput from "@/components/Forms/HInput";
 import HModal from "@/components/Shared/HModal/HModal";
-import { TextField } from "@mui/material";
+import { Box, Button, Grid2, Stack, TextField } from "@mui/material";
+import { FieldValues } from "react-hook-form";
 
 type TProps = {
   open: boolean;
@@ -7,9 +11,26 @@ type TProps = {
 };
 
 const SpecialtiesModal = ({ open, setOpen }: TProps) => {
+  const handleFormSubmit = (values: FieldValues) => {
+    console.log(values);
+  };
+
   return (
-    <HModal open={open} setOpen={setOpen} title={"Create Specialties"}>
-        <TextField/>
+    <HModal open={open} setOpen={setOpen} title={"Create A New Specialty"}>
+      <HForm onSubmit={handleFormSubmit}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ md: 6 }}>
+            <HInput name="title" label="Title" />
+          </Grid2>
+          <Grid2 size={{ md: 6 }}>
+            <HFileUploader/>
+          </Grid2>
+        </Grid2>
+
+        <Button type="submit" fullWidth sx={{ my: 1 }}>
+          Create
+        </Button>
+      </HForm>
     </HModal>
   );
 };

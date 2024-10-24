@@ -27,7 +27,7 @@ export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function HModal({ open, setOpen, title, children, sx }: TModalProps) {
+export default function HModal({ open = false, setOpen, title = "", children, sx }: TModalProps) {
 
   const handleClose = () => {
     setOpen(false);
@@ -57,11 +57,6 @@ export default function HModal({ open, setOpen, title, children, sx }: TModalPro
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>{children}</DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </React.Fragment>
   );
