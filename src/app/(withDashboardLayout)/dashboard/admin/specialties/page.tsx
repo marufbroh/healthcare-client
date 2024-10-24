@@ -1,8 +1,12 @@
+"use client";
+
 import HModal from "@/components/Shared/HModal/HModal";
 import { Box, Button, Stack, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import SpecialtiesModal from "./components/SpecialtiesModal";
 
 const SpecialtiesPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <Box>
       <Stack
@@ -10,8 +14,8 @@ const SpecialtiesPage = () => {
         justifyContent="space-between"
         alignItems={"center"}
       >
-        <Button>Create Specialty</Button>
-        <HModal/>
+        <Button onClick={() => setIsModalOpen(true)}>Create Specialty</Button>
+        <SpecialtiesModal open={isModalOpen} setOpen={setIsModalOpen} />
         <TextField size="small" placeholder="Search Specialties" />
       </Stack>
     </Box>
