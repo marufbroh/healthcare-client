@@ -21,6 +21,12 @@ import Link from "next/link";
 
 const DoctorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const query: Record<string, any> = {};
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  query["searchTerm"] = searchTerm;
+
   const { data, isLoading } = useGetAllDoctorsQuery({});
   const [deleteDoctor] = useDeleteDoctorMutation();
   const { doctors, meta } = data || {};
@@ -31,7 +37,7 @@ const DoctorPage = () => {
     try {
       const res = await deleteDoctor(id).unwrap();
       if (res?.id) {
-        toast.success(`${res?.name} has been deleted!`);
+        toast.success("Doctor deleted successfully!!!");
       }
     } catch (error) {
       console.error(error);
@@ -74,7 +80,7 @@ const DoctorPage = () => {
       >
         <Button onClick={() => setIsModalOpen(true)}>Create New Doctor</Button>
         <DoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
-        <TextField size="small" placeholder="search doctors" />
+        <TextField onChange={(e) => setSearchTerm(e.target.value)} size="small" placeholder="search doctors" />
       </Stack>
 
       {!isLoading ? (
