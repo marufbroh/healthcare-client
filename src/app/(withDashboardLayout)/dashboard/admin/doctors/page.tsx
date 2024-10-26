@@ -18,6 +18,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Delete, Edit } from "@mui/icons-material";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useDebounced } from "@/redux/hooks";
 
 const DoctorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -25,9 +26,16 @@ const DoctorPage = () => {
   const query: Record<string, any> = {};
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  query["searchTerm"] = searchTerm;
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
 
-  const { data, isLoading } = useGetAllDoctorsQuery({});
+  if (!!debouncedTerm) {
+    query["searchTerm"] = searchTerm;
+  }
+
+  const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
   const [deleteDoctor] = useDeleteDoctorMutation();
   const { doctors, meta } = data || {};
 
@@ -80,7 +88,11 @@ const DoctorPage = () => {
       >
         <Button onClick={() => setIsModalOpen(true)}>Create New Doctor</Button>
         <DoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
-        <TextField onChange={(e) => setSearchTerm(e.target.value)} size="small" placeholder="search doctors" />
+        <TextField
+          onChange={(e) => setSearchTerm(e.target.value)}
+          size="small"
+          placeholder="search doctors"
+        />
       </Stack>
 
       {!isLoading ? (
