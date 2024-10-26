@@ -33,7 +33,7 @@ const ScheduleModal = ({ open, setOpen }: TProps) => {
           <HForm onSubmit={handleFormSubmit}>
             <Grid2 container spacing={2}>
               <Grid2 size={{ md: 12 }}>
-               <HDatePickers/>
+               <HDatePickers name="startDate"/>
               </Grid2>
               <Grid2 size={{ md:12 }}>
                 
