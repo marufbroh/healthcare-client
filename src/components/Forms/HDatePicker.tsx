@@ -14,7 +14,7 @@ interface IDatePicker {
   sx?: SxProps;
 }
 
-const HDatePickers = ({
+const HDatePicker = ({
   name,
   size = "small",
   label,
@@ -33,6 +33,7 @@ const HDatePickers = ({
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
+            label={label}
               timezone="system"
               disablePast
               {...filed}
@@ -57,4 +58,4 @@ const HDatePickers = ({
   );
 };
 
-export default HDatePickers;
+export default HDatePicker;
