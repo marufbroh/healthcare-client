@@ -61,7 +61,7 @@ const SpecialtiesPage = () => {
       align: "center",
       renderCell: ({ row }) => (
         <IconButton onClick={() => handleDelete(row.id)} aria-label="delete">
-          <Delete />
+          <Delete sx={{ color: "red" }} />
         </IconButton>
       ),
     },
@@ -85,6 +85,7 @@ const SpecialtiesPage = () => {
             rows={allSpecialties}
             columns={columns}
             sx={{ border: 0 }}
+            hideFooter={true}
           />
         </Paper>
       ) : (
