@@ -2,9 +2,13 @@ import HForm from "@/components/Forms/HForm";
 import HInput from "@/components/Forms/HInput";
 import HSelectField from "@/components/Forms/HSelectField";
 import HFullScreenModal from "@/components/Shared/HModal/HFullScreenModal";
+import { useCreateDoctorMutation } from "@/redux/api/doctorApi";
 import { Gender } from "@/types";
+import { modifyPayload } from "@/utils/modifyPayload";
 import { Button, Grid2 } from "@mui/material";
 import React from "react";
+import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -12,7 +16,22 @@ type TProps = {
 };
 
 const DoctorModal = ({ open, setOpen }: TProps) => {
-  const handleFormSubmit = () => {};
+  const [createDoctor] = useCreateDoctorMutation();
+
+  const handleFormSubmit = async (values: FieldValues) => {
+    values.doctor.experience = Number(values.doctor.experience)
+    values.doctor.apointmentFee = Number(values.doctor.apointmentFee)
+    const data = modifyPayload(values);
+    try {
+      const res = await createDoctor(data).unwrap();
+      if(res?.id){
+        toast.success("Doctor Created Successfully!!!");
+        setOpen(false)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const defaultValues = {
     doctor: {
