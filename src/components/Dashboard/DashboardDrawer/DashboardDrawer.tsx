@@ -17,6 +17,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "../Sidebar/Sidebar";
+import { useGetSingleUserQuery } from "@/redux/api/userApi";
+import { Avatar, Badge, Stack } from "@mui/material";
+import { NotificationsNone } from "@mui/icons-material";
+import AccountMenu from "../AccountMenu/AccountMenu";
 
 const drawerWidth = 240;
 
@@ -27,6 +31,7 @@ export default function DashboardDrawer({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const { data, isLoading } = useGetSingleUserQuery({});
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -43,8 +48,6 @@ export default function DashboardDrawer({
     }
   };
 
-
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -55,7 +58,7 @@ export default function DashboardDrawer({
           ml: { sm: `${drawerWidth}px` },
           background: "#F4F7FE",
           boxShadow: 0,
-          borderBottom: "1px solid lightgray"
+          borderBottom: "1px solid lightgray",
         }}
       >
         <Toolbar>
@@ -68,14 +71,35 @@ export default function DashboardDrawer({
           >
             <MenuIcon />
           </IconButton>
-         <Box>
-         <Typography variant="body2" noWrap component="div" color="gray">
-            Hello Tamim,
-          </Typography>
-         <Typography variant="body2" noWrap component="div" color="primary.main">
-            Welcome To HealthCare!
-          </Typography>
-         </Box>
+          <Box sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}>
+            <Box>
+              <Typography variant="body2" noWrap component="div" color="gray">
+                Hello, {isLoading ? "loading..." : data?.name}
+              </Typography>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ color: "primary.main" }}
+              >
+                Welcome To HealthCare!
+              </Typography>
+            </Box>
+            <Stack direction={"row"} gap={3}>
+              <Badge badgeContent={1} color="primary">
+                <IconButton sx={{ background: "#ffffff" }}>
+                  <NotificationsNone color="action" />
+                </IconButton>
+              </Badge>
+              <Avatar alt={data?.name} src={data?.profilePhoto}/>
+              <AccountMenu/>
+            </Stack>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
@@ -100,7 +124,7 @@ export default function DashboardDrawer({
             },
           }}
         >
-          <Sidebar/>
+          <Sidebar />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -113,7 +137,7 @@ export default function DashboardDrawer({
           }}
           open
         >
-          <Sidebar/>
+          <Sidebar />
         </Drawer>
       </Box>
       <Box
