@@ -1,10 +1,9 @@
 import React from "react";
 import {
-  useForm,
-  FormProvider,
-  useFormContext,
-  SubmitHandler,
   FieldValues,
+  FormProvider,
+  SubmitHandler,
+  useForm,
 } from "react-hook-form";
 
 type TFormConfig = {
@@ -34,14 +33,17 @@ export default function HForm({
   }
 
   const methods = useForm(formConfig);
-  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
+  const { handleSubmit, reset } = methods;
+
+  const submit: SubmitHandler<FieldValues> = (data) => {
+    // console.log(data);
     onSubmit(data);
-    methods.reset();
+    reset();
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleSubmit)}>{children}</form>
+      <form onSubmit={methods.handleSubmit(submit)}>{children}</form>
     </FormProvider>
   );
 }
