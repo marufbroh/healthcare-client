@@ -1,9 +1,16 @@
-import HDatePicker from "@/components/Forms/HDatePicker";
-import HForm from "@/components/Forms/HForm";
-import HTimePicker from "@/components/Forms/HTimePicker";
-import HModal from "@/components/Shared/HModal/HModal";
-import { Button, Grid2 } from "@mui/material";
-import { FieldValues } from "react-hook-form";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+import dayjs, { Dayjs } from 'dayjs';
+import { useState } from 'react';
+import { useGetAllSchedulesQuery } from '@/redux/api/scheduleApi';
+
+import { Stack } from '@mui/material';
+import HModal from '@/components/Shared/HModal/HModal';
+import MultipleSelectFieldChip from './MultipleSelectFieldChip';
+
+
 
 type TProps = {
   open: boolean;
@@ -12,41 +19,59 @@ type TProps = {
 
 const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
 
-  const handleFormSubmit = async (values: FieldValues) => {
-    // values.startDate = dateFormatter(values.startDate);
-    // values.endDate = dateFormatter(values.endDate);
-    // values.startTime = timeFormatter(values.startTime);
-    // values.endTime = timeFormatter(values.endTime);
-
-    try {
-
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
+    const [selectedDate, setSelectedDate] = useState(
+        dayjs(new Date()).toISOString()
+     );
+  
+     const [selectedScheduleIds, setSelectedScheduleIds] = useState<string[]>([]);
+  
+     const query: Record<string, any> = {};
+  
+     if (!!selectedDate) {
+        query['startDate'] = dayjs(selectedDate)
+           .hour(0)
+           .minute(0)
+           .millisecond(0)
+           .toISOString();
+        query['endDate'] = dayjs(selectedDate)
+           .hour(23)
+           .minute(59)
+           .millisecond(999)
+           .toISOString();
+     }
+  
+     const { data } = useGetAllSchedulesQuery(query);
+     const schedules = data?.schedules;
 
   return (
     <HModal open={open} setOpen={setOpen} title={"Create Doctor Schedule"}>
-      <HForm onSubmit={handleFormSubmit}>
-        <Grid2 container spacing={2} sx={{ width: "400px" }}>
-          <Grid2 size={{ md: 12 }}>
-            <HDatePicker name="startDate" label="Start Date" />
-          </Grid2>
-          <Grid2 size={{ md: 12 }}>
-            <HDatePicker name="endDate" label="End Date" />
-          </Grid2>
-          <Grid2 size={{ md: 6 }}>
-            <HTimePicker name="startTime" label="Start Time" />
-          </Grid2>
-          <Grid2 size={{ md: 6 }}>
-            <HTimePicker name="endTime" label="End Time" />
-          </Grid2>
-        </Grid2>
+      <Stack direction={'column'} gap={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+               <DatePicker
+                  label='Controlled picker'
+                  value={dayjs(selectedDate)}
+                  onChange={(newValue) =>
+                     setSelectedDate(dayjs(newValue).toISOString())
+                  }
+                  sx={{ width: '100%' }}
+               />
+            </LocalizationProvider>
+            <MultipleSelectFieldChip
+               schedules={schedules}
+               selectedScheduleIds={selectedScheduleIds}
+               setSelectedScheduleIds={setSelectedScheduleIds}
+            />
 
-        <Button type="submit" fullWidth sx={{ my: 1 }}>
-          Create
-        </Button>
-      </HForm>
+            {/* <LoadingButton
+               size='small'
+               onClick={onSubmit}
+               loading={isLoading}
+               loadingIndicator='Submitting...'
+               variant='contained'
+            >
+               <span>Submit</span>
+            </LoadingButton> */}
+         </Stack>
     </HModal>
   );
 };
