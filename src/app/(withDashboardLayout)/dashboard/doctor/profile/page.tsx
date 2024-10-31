@@ -1,31 +1,34 @@
 "use client";
-import { useGetMYProfileQuery } from "@/redux/api/myProfile";
-import { Box, Grid2, Stack, styled, Typography } from "@mui/material";
+import {
+  useGetMYProfileQuery,
+  useUpdateMYProfileMutation,
+} from "@/redux/api/myProfile";
+import { Box, Grid2 } from "@mui/material";
 import Image from "next/image";
-
-const StyledInformationBox = styled(Box)(({ theme }) => ({
-    background: '#f4f7fe',
-    borderRadius: theme.spacing(1),
-    width: '45%',
-    padding: '8px 16px',
-    '& p': {
-       fontWeight: 600,
-    },
- }));
+import DoctorInformation from "./components/DoctorInformations";
+import AutoFileUploader from "@/components/Forms/AutoFileUploader";
+import { CloudUpload } from "@mui/icons-material";
 
 const Profile = () => {
   const { data, isLoading } = useGetMYProfileQuery({});
+  const [updateMyProfile, { isLoading: updating }] =
+    useUpdateMYProfileMutation();
+
+  const fileUploadHandler = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("data", JSON.stringify({}));
+    const res = await updateMyProfile(formData);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  console.log(data);
-
   return (
     <Box>
       <Grid2 container spacing={2}>
-        <Grid2 size={{ xs: 4 }}>
+        <Grid2 size={{ xs: 12, md: 4 }}>
           <Box
             sx={{
               height: 300,
@@ -41,26 +44,24 @@ const Profile = () => {
               alt="User Photo"
             />
           </Box>
+
+          <Box my={3}>
+            {updating ? (
+              <p>Uploading...</p>
+            ) : (
+              <AutoFileUploader
+                name="file"
+                label="Choose Your Profile Photo"
+                icon={<CloudUpload />}
+                onFileUpload={fileUploadHandler}
+                // variant="text"
+              />
+            )}
+          </Box>
         </Grid2>
 
-        <Grid2 size={{ xs: 8 }}>
-          <Typography variant="h4" color="primary.main">
-            Basic Information
-          </Typography>
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            gap={2}
-            flexWrap={"wrap"}
-          >
-            <StyledInformationBox>
-              <Typography color="secondary">Role</Typography>
-              <Typography color="secondary">Admin</Typography>
-            </StyledInformationBox>
-            <StyledInformationBox>
-              <Typography color="secondary">Role</Typography>
-              <Typography color="secondary">Admin</Typography>
-            </StyledInformationBox>
-          </Stack>
+        <Grid2 size={{ xs: 12, md: 8 }}>
+          <DoctorInformation data={data} />
         </Grid2>
       </Grid2>
     </Box>
