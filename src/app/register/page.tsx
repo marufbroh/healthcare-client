@@ -67,7 +67,7 @@ const RegisterPage = () => {
           router.push("/dashboard");
         }
       }else{
-        console.log(res);
+        // console.log(res);
         toast.error(res.message || "User already exits!");
       }
     } catch (error) {
