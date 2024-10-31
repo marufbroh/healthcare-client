@@ -11,13 +11,33 @@ import { Box, Button, Grid2 } from "@mui/material";
 import { FieldValues } from "react-hook-form";
 import MultipleSelectChip from "./MultipleSelectChip";
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
 };
+
+const validationSchema = z.object({
+  experience: z.preprocess(
+    (x) => (x ? x : undefined),
+    z.coerce.number().int().optional()
+  ),
+  apointmentFee: z.preprocess(
+    (x) => (x ? x : undefined),
+    z.coerce.number().int().optional()
+  ),
+  name: z.string().optional(),
+  contactNumber: z.string().optional(),
+  registrationNumber: z.string().optional(),
+  gender: z.string().optional(),
+  qualification: z.string().optional(),
+  currentWorkingPlace: z.string().optional(),
+  designation: z.string().optional(),
+});
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const { data: doctorData, refetch, isSuccess } = useGetDoctorQuery(id);
@@ -26,8 +46,19 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
 
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
 
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    setSelectedSpecialtiesIds(
+       doctorData?.doctorSpecialties.map((sp: any) => {
+          return sp.specialtiesId;
+       })
+    );
+ }, [isSuccess, doctorData?.doctorSpecialties]);
+
+
   const submitHandler = async (values: FieldValues) => {
-    const specialties = allSpecialties.map((specialtiesId: string) => ({
+    const specialties = selectedSpecialtiesIds.map((specialtiesId: string) => ({
       specialtiesId,
       isDeleted: false,
     }));
@@ -59,7 +90,8 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
 
     try {
       await updateDoctor({ body: updatedValues, id });
-
+      await refetch();
+      setOpen(false);
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +99,11 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
 
   return (
     <HFullScreenModal open={open} setOpen={setOpen} title="Update Profile">
-      <HForm onSubmit={submitHandler} defaultValues={doctorData}>
+      <HForm
+        onSubmit={submitHandler}
+        defaultValues={doctorData}
+        resolver={zodResolver(validationSchema)}
+      >
         <Grid2 container spacing={2} sx={{ my: 5 }}>
           <Grid2 size={{ xs: 12, md: 4 }}>
             <HInput name="name" label="Name" sx={{ mb: 2 }} fullWidth />
@@ -160,7 +196,9 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
             />
           </Grid2>
         </Grid2>
-        <Button type="submit" disabled={updating}>Save</Button>
+        <Button type="submit" disabled={updating}>
+          Save
+        </Button>
       </HForm>
     </HFullScreenModal>
   );
