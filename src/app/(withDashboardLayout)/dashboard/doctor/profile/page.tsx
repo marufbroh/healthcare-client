@@ -32,7 +32,7 @@ const Profile = () => {
     <>
       <ProfileUpdateModal open={isModalOpen} setOpen={setIsModalOpen} id={data?.id} />
       <Container>
-        <Grid2 container spacing={2}>
+        <Grid2 container spacing={4}>
           <Grid2 size={{ xs: 12, md: 4 }}>
             <Box
               sx={{

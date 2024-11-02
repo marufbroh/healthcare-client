@@ -1,9 +1,16 @@
 "use client";
-import { Box, Button, IconButton, LinearProgress, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  LinearProgress,
+  Pagination,
+  Paper,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DoctorScheduleModal from "./components/DoctorScheduleModal";
-import { Delete } from "@mui/icons-material";
+import { Add, Delete } from "@mui/icons-material";
 import { useGetAllDoctorSchedulesQuery } from "@/redux/api/doctorScheduleApi";
 import { ISchedule } from "@/types/schedule";
 import { dateFormatter } from "@/utils/dateFormatter";
@@ -12,27 +19,43 @@ import dayjs from "dayjs";
 const DoctorSchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  const query: Record<string, any> = {};
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+
+  query["page"] = page;
+  query["limit"] = limit;
+
   const [allSchedule, setAllSchedule] = useState<any>([]);
-  const { data, isLoading } = useGetAllDoctorSchedulesQuery({});
+  const { data, isLoading } = useGetAllDoctorSchedulesQuery({ ...query });
 
   const schedules = data?.doctorSchedules;
   const meta = data?.meta;
 
+  let pageCount: number;
+
+  if (meta?.total) {
+    pageCount = Math.ceil(meta.total / limit);
+  }
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   useEffect(() => {
     const updateData = schedules?.map((schedule: ISchedule, index: number) => {
       return {
-        sl: index + 1,
-        id: schedule?.doctorId,
+        id: schedule?.scheduleId,
         startDate: dateFormatter(schedule?.schedule?.startDate),
-        startTime: dayjs(schedule?.startDate).format("hh:mm a"),
-        endTime: dayjs(schedule?.endDate).format("hh:mm a"),
+        startTime: dayjs(schedule?.schedule?.startTime).format("hh:mm a"),
+        endTime: dayjs(schedule?.schedule?.endTime).format("hh:mm a"),
       };
     });
     setAllSchedule(updateData);
   }, [schedules]);
 
   const columns: GridColDef[] = [
-    { field: "sl", headerName: "SL" },
     { field: "startDate", headerName: "Date", flex: 1 },
     { field: "startTime", headerName: "Start Time", flex: 1 },
     { field: "endTime", headerName: "End Time", flex: 1 },
@@ -54,7 +77,9 @@ const DoctorSchedulesPage = () => {
 
   return (
     <Box>
-      <Button onClick={() => setIsModalOpen(true)}>Create Doctor Schedule</Button>
+      <Button onClick={() => setIsModalOpen(true)} endIcon={<Add />}>
+        Create Doctor Schedule
+      </Button>
       <DoctorScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
 
       {!isLoading ? (
@@ -63,7 +88,27 @@ const DoctorSchedulesPage = () => {
             rows={allSchedule}
             columns={columns}
             sx={{ border: 0 }}
-            hideFooter={true}
+            // hideFooter={true}
+            slots={{
+              footer: () => {
+                return (
+                  <Box
+                    sx={{
+                      mb: 2,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Pagination
+                      color="primary"
+                      count={pageCount}
+                      page={page}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                );
+              },
+            }}
           />
         </Paper>
       ) : (
