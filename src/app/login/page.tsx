@@ -12,12 +12,10 @@ import {
   Container,
   Grid2,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -28,15 +26,12 @@ export const validationSchema = z.object({
 });
 
 const LoginPage = () => {
-  const router = useRouter();
-
   const handleLogin = async (values: FieldValues) => {
     try {
       const res = await loginUser(values);
       if (res?.data?.accessToken) {
         storeUserInfo(res.data.accessToken);
         toast.success(res.message);
-        router.push("/dashboard");
       } else {
         toast.error(res.message);
       }
@@ -120,7 +115,7 @@ const LoginPage = () => {
 
               <Typography component="p" fontWeight={300} textAlign={"center"}>
                 Don&apos;t have an account?{" "}
-                <Link href={"/register"} style={{color: "blue"}}>
+                <Link href={"/register"} style={{ color: "blue" }}>
                   Create an account
                 </Link>
               </Typography>
