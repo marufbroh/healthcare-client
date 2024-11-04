@@ -7,6 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Image from "next/image";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Link from "next/link";
 
 const TopRatedDoctors = async () => {
   const res = await fetch("http://localhost:5000/api/v1/doctor?page=1&limit=3");
@@ -85,7 +86,7 @@ const TopRatedDoctors = async () => {
             textAlign: "center",
           }}
         >
-          <Button variant="outlined">View All</Button>
+          <Button component={Link} variant="outlined">View All</Button>
         </Box>
       </Container>
     </Box>
