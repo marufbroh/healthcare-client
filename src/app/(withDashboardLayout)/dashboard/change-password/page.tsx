@@ -19,7 +19,9 @@ const validationSchema = z.object({
 
 const ChangePassword = () => {
    const [changePassword] = useChangePasswordMutation();
+   
   const router = useRouter();
+
   const onSubmit = async (values: FieldValues) => {
     try {
        const res = await changePassword(values);
