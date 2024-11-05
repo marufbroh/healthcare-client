@@ -1,5 +1,6 @@
 import DashedLine from '@/components/UI/Doctor/DashedLine';
 import DoctorCard from '@/components/UI/Doctor/DoctorCard';
+import ScrollCategory from '@/components/UI/Doctor/ScrollCategory';
 import { Doctor } from '@/types/doctor';
 import { Box, Container } from '@mui/material';
 import React from 'react';
@@ -26,6 +27,8 @@ const Doctors = async ({ searchParams }: PropType) => {
    return (
       <Container>
          <DashedLine />
+
+         <ScrollCategory specialties={searchParams.specialties} />
 
          <Box sx={{ mt: 2, p: 3, bgcolor: 'secondary.light' }}>
             {data?.map((doctor: Doctor, index: number) => (
