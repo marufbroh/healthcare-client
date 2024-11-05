@@ -1,5 +1,5 @@
 
-const DoctorScheduleSlots = () => {
+const DoctorScheduleSlots = ({id}) => {
  return (
  <div>
  <h1>This is DoctorScheduleSlots component</h1>
