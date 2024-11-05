@@ -1,12 +1,10 @@
-import * as React from "react";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box, Container, Grid2, Typography } from "@mui/material";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Image from "next/image";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Link from "next/link";
 
 const TopRatedDoctors = async () => {
@@ -86,7 +84,7 @@ const TopRatedDoctors = async () => {
             textAlign: "center",
           }}
         >
-          <Button component={Link} variant="outlined">View All</Button>
+          <Button component={Link} href="/doctors" variant="outlined">View All</Button>
         </Box>
       </Container>
     </Box>

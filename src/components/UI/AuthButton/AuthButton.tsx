@@ -1,14 +1,14 @@
 "use client";
 
+import useUserInfo from "@/hooks/useUserInfo";
 import { logoutUser } from "@/services/actions/logoutUser";
-import { getUserInfo } from "@/services/auth.services";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const AuthButton = () => {
   const router = useRouter();
-  const userInfo = getUserInfo();
+  const userInfo = useUserInfo();
   // console.log({userInfo});
 
   const handleLogout = () => {
