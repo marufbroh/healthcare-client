@@ -1,5 +1,6 @@
 "use client";
 import { getTimeIn12HourFormat } from "@/app/(withDashboardLayout)/dashboard/doctor/schedules/components/MultipleSelectFieldChip";
+import { useCreateAppointmentMutation } from "@/redux/api/appointmentApi";
 import { useGetAllDoctorSchedulesQuery } from "@/redux/api/doctorScheduleApi";
 import { DoctorSchedule } from "@/types/doctorSchedules";
 
@@ -45,10 +46,13 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
     (doctor: DoctorSchedule) => !doctor.isBooked
   );
 
+  const [createAppointment] = useCreateAppointmentMutation();
+
   const handleBookAppointment = async () => {
     try {
-      if(id && scheduleId){
-
+      if (id && scheduleId) {
+        const res = await createAppointment({ doctorId: id, scheduleId }).unwrap();
+        
       }
     } catch (error) {
       console.error(error);
