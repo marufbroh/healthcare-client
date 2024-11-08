@@ -1,16 +1,12 @@
+import VideoCall from "@/components/UI/VideoCall/VideoCall";
+
 const VideoCalling = ({
   searchParams,
 }: {
   searchParams: { videoCallingId: string };
 }) => {
 
-
-    
-  return (
-    <div>
-      <h1>This is VideoCalling component</h1>
-    </div>
-  );
+  return <VideoCall videoCallingId={searchParams.videoCallingId} />;
 };
 
 export default VideoCalling;
