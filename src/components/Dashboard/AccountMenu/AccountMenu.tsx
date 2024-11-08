@@ -54,8 +54,6 @@ export default function AccountMenu() {
   const handleLogout = () => {
     setAnchorEl(null);
     logoutUser(router);
-    localStorage.removeItem("accessToken")
-    router.push("/login")
   };
 
   return (
