@@ -64,7 +64,7 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
       <Stack direction={"column"} gap={2}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="Controlled picker"
+            label="Date"
             value={dayjs(selectedDate)}
             onChange={(newValue) =>
               setSelectedDate(dayjs(newValue).toISOString())
